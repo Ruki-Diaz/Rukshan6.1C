@@ -40,7 +40,7 @@ pipeline {
     post {
         always {
             emailext(
-                to: 'youremail@example.com',
+                to: 'dias.rukshan@gmail.com',
                 subject: "Jenkins Build ${currentBuild.fullDisplayName}",
                 body: "Build status: ${currentBuild.currentResult}\nSee details at: ${env.BUILD_URL}",
                 attachLog: true
