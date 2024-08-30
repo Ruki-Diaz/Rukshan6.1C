@@ -1,70 +1,50 @@
 pipeline {
     agent any
-
     stages {
         stage('Build') {
             steps {
-                echo 'Building the code...'
-                // Tool: Maven
-                // sh 'mvn clean install'
+                echo 'Building...'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running unit and integration tests...'
-                // Tool: JUnit for unit tests
-                // Tool: TestNG for integration tests
-                // sh 'mvn test'
+                echo 'Running Unit and Integration Tests...'
             }
         }
         stage('Code Analysis') {
             steps {
-                echo 'Performing code analysis...'
-                // Tool: SonarQube
-                // sh 'mvn sonar:sonar'
+                echo 'Running Code Analysis...'
             }
         }
         stage('Security Scan') {
             steps {
-                echo 'Performing security scan...'
-                // Tool: OWASP Dependency-Check
-                // sh 'dependency-check.sh --project "ProjectName" --out reports'
+                echo 'Performing Security Scan...'
             }
         }
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to staging environment...'
-                // Tool: AWS CLI
-                // sh 'aws deploy create-deployment --application-name AppName --deployment-group-name StagingGroup --revision ...'
+                echo 'Deploying to Staging...'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running integration tests on staging...'
-                // Tool: Selenium or similar
-                // sh 'mvn verify -Pstaging'
+                echo 'Running Integration Tests on Staging...'
             }
         }
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying to production environment...'
-                // Tool: AWS CLI
-                // sh 'aws deploy create-deployment --application-name AppName --deployment-group-name ProdGroup --revision ...'
+                echo 'Deploying to Production...'
             }
         }
     }
     post {
-        success {
-            mail to: 'your-email@example.com',
-                 subject: 'Jenkins Pipeline Success',
-                 body: 'The pipeline succeeded. Check the build logs for details.',
-                 attachLog: true
-        }
-        failure {
-            mail to: 'your-email@example.com',
-                 subject: 'Jenkins Pipeline Failure',
-                 body: 'The pipeline failed. Check the build logs for details.',
-                 attachLog: true
+        always {
+            emailext(
+                to: 'youremail@example.com',
+                subject: "Jenkins Build ${currentBuild.fullDisplayName}",
+                body: "Build status: ${currentBuild.currentResult}\nSee details at: ${env.BUILD_URL}",
+                attachLog: true
+            )
         }
     }
 }
