@@ -14,6 +14,16 @@ pipeline {
                 // Example: Use JUnit or similar tools
                 // sh 'mvn test'
             }
+            post {
+                always {
+                    emailext(
+                        to: 'developer@example.com',
+                        subject: "Unit and Integration Tests - ${currentBuild.currentResult}",
+                        body: "The Unit and Integration Tests stage has ${currentBuild.currentResult}. Check console output at ${env.BUILD_URL} to view the results.",
+                        attachLog: true
+                    )
+                }
+            }
         }
         stage('Code Analysis') {
             steps {
@@ -27,6 +37,16 @@ pipeline {
                 echo 'Running security scans...'
                 // Example: Use OWASP Dependency Check
                 // sh 'dependency-check.sh'
+            }
+            post {
+                always {
+                    emailext(
+                        to: 'developer@example.com',
+                        subject: "Security Scan - ${currentBuild.currentResult}",
+                        body: "The Security Scan stage has ${currentBuild.currentResult}. Check console output at ${env.BUILD_URL} to view the results.",
+                        attachLog: true
+                    )
+                }
             }
         }
         stage('Deploy to Staging') {
