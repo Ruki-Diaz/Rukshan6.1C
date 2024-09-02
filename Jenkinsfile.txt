@@ -3,48 +3,59 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
+                echo 'Building the code...'
+                // Example: Use Maven for Java projects
+                // sh 'mvn clean package'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running Unit and Integration Tests...'
+                echo 'Running unit and integration tests...'
+                // Example: Use JUnit or similar tools
+                // sh 'mvn test'
             }
         }
         stage('Code Analysis') {
             steps {
-                echo 'Running Code Analysis...'
+                echo 'Analyzing code quality...'
+                // Example: Use SonarQube or Checkstyle
+                // sh 'sonar-scanner'
             }
         }
         stage('Security Scan') {
             steps {
-                echo 'Performing Security Scan...'
+                echo 'Running security scans...'
+                // Example: Use OWASP Dependency Check
+                // sh 'dependency-check.sh'
             }
         }
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to Staging...'
+                echo 'Deploying to staging environment...'
+                // Example: Use AWS CLI for deployment
+                // sh 'aws deploy...'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running Integration Tests on Staging...'
+                echo 'Running integration tests on staging...'
+                // Example: Use test scripts specific to your environment
             }
         }
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying to Production...'
+                echo 'Deploying to production environment...'
+                // Example: Use AWS CLI for production deployment
+                // sh 'aws deploy...'
             }
         }
     }
     post {
-        always {
-            emailext(
-                to: 'dias.rukshan@gmail.com',
-                subject: "Jenkins Build ${currentBuild.fullDisplayName}",
-                body: "Build status: ${currentBuild.currentResult}\nSee details at: ${env.BUILD_URL}",
-                attachLog: true
-            )
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs.'
         }
     }
 }
