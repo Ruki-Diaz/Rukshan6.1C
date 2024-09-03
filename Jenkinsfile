@@ -17,7 +17,7 @@ pipeline {
             post {
                 always {
                     emailext(
-                        to: 'developer@example.com',
+                        to: 'dias.rukshan@gmail.com',
                         subject: "Unit and Integration Tests - ${currentBuild.currentResult}",
                         body: "The Unit and Integration Tests stage has ${currentBuild.currentResult}. Check console output at ${env.BUILD_URL} to view the results.",
                         attachLog: true
