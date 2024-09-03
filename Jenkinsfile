@@ -41,7 +41,7 @@ pipeline {
             post {
                 always {
                     emailext(
-                        to: 'developer@example.com',
+                        to: 'dias.rukshan@gmailcom',
                         subject: "Security Scan - ${currentBuild.currentResult}",
                         body: "The Security Scan stage has ${currentBuild.currentResult}. Check console output at ${env.BUILD_URL} to view the results.",
                         attachLog: true
