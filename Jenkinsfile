@@ -4,15 +4,15 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the code...'
-                // Example: Use Maven for Java projects
-                // sh 'mvn clean package'
+                echo 'Tool: Maven' // Example build automation tool
+                // sh 'mvn clean package' // Uncomment if actually running Maven
             }
         }
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests...'
-                // Example: Use JUnit or similar tools
-                // sh 'mvn test'
+                echo 'Tools: JUnit for unit tests, Selenium for integration tests' // Example test automation tools
+                // sh 'mvn test' // Uncomment if actually running tests
             }
             post {
                 always {
@@ -28,15 +28,15 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 echo 'Analyzing code quality...'
-                // Example: Use SonarQube or Checkstyle
-                // sh 'sonar-scanner'
+                echo 'Tool: SonarQube' // Example code analysis tool
+                // sh 'sonar-scanner' // Uncomment if actually running SonarQube
             }
         }
         stage('Security Scan') {
             steps {
                 echo 'Running security scans...'
-                // Example: Use OWASP Dependency Check
-                // sh 'dependency-check.sh'
+                echo 'Tool: OWASP Dependency Check' // Example security scanning tool
+                // sh 'dependency-check.sh' // Uncomment if actually running a security scan
             }
             post {
                 always {
@@ -52,21 +52,22 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to staging environment...'
-                // Example: Use AWS CLI for deployment
-                // sh 'aws deploy...'
+                echo 'Tool: AWS CLI' // Example deployment tool
+                // sh 'aws deploy...' // Uncomment if actually deploying to AWS
             }
         }
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running integration tests on staging...'
-                // Example: Use test scripts specific to your environment
+                echo 'Tool: Selenium for integration tests on staging' // Example integration test tool
+                // Use test scripts specific to your environment
             }
         }
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to production environment...'
-                // Example: Use AWS CLI for production deployment
-                // sh 'aws deploy...'
+                echo 'Tool: AWS CLI' // Example deployment tool
+                // sh 'aws deploy...' // Uncomment if actually deploying to production
             }
         }
     }
