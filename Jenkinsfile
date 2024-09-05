@@ -14,19 +14,6 @@ pipeline {
                 echo 'Tools: JUnit for unit tests, Selenium for integration tests' // Example test automation tools
                 // sh 'mvn test' // Uncomment if actually running tests
             }
-            post {
-                always {
-                    // Send notification email at the end of the test stage
-                    emailext(
-                        to: 'dias.rukshan@gmail.com',
-                        subject: "Unit and Integration Tests - ${currentBuild.currentResult}",
-                        body: """The Unit and Integration Tests stage has ${currentBuild.currentResult}.
-
-Check the console output for more details at: ${env.BUILD_URL}""",
-                        attachLog: true
-                    )
-                }
-            }
         }
         stage('Code Analysis') {
             steps {
@@ -43,15 +30,11 @@ Check the console output for more details at: ${env.BUILD_URL}""",
             }
             post {
                 always {
-                    // Send notification email at the end of the security scan stage
-                    emailext(
-                        to: 'dias.rukshan@gmail.com',
-                        subject: "Security Scan - ${currentBuild.currentResult}",
-                        body: """The Security Scan stage has ${currentBuild.currentResult}.
-
-Check the console output for more details at: ${env.BUILD_URL}""",
-                        attachLog: true
-                    )
+                    // Send email notification after security scan
+                    mail to: 'dias.rukshan@gmail.com',
+                         subject: "Security Scan Completed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                         body: "The Security Scan stage has completed with status: ${currentBuild.currentResult}. Check the console output at ${env.BUILD_URL} to view the results.",
+                         attachLog: true
                 }
             }
         }
