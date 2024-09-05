@@ -7,6 +7,14 @@ pipeline {
                 echo 'Tool: Maven' // Example build automation tool
                 // sh 'mvn clean package' // Uncomment if actually running Maven
             }
+            post {
+                success {
+                    // Send email notification on build success
+                    mail to: 'dias.rukshan@gmail.com',
+                         subject: "Build Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                         body: "The build was successful."
+                }
+            }
         }
         stage('Unit and Integration Tests') {
             steps {
@@ -30,6 +38,14 @@ pipeline {
                 echo 'Analyzing code quality...'
                 echo 'Tool: SonarQube' // Example code analysis tool
                 // sh 'sonar-scanner' // Uncomment if actually running SonarQube
+            }
+            post {
+                success {
+                    // Send email notification on code analysis success
+                    mail to: 'dias.rukshan@gmail.com',
+                         subject: "Code Analysis Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                         body: "The code analysis was successful."
+                }
             }
         }
         stage('Security Scan') {
@@ -55,6 +71,14 @@ pipeline {
                 echo 'Tool: AWS CLI' // Example deployment tool
                 // sh 'aws deploy...' // Uncomment if actually deploying to AWS
             }
+            post {
+                success {
+                    // Send email notification on staging deployment success
+                    mail to: 'dias.rukshan@gmail.com',
+                         subject: "Deployment to Staging Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                         body: "The deployment to the staging environment was successful."
+                }
+            }
         }
         stage('Integration Tests on Staging') {
             steps {
@@ -62,12 +86,28 @@ pipeline {
                 echo 'Tool: Selenium for integration tests on staging' // Example integration test tool
                 // Use test scripts specific to your environment
             }
+            post {
+                success {
+                    // Send email notification on integration test success on staging
+                    mail to: 'dias.rukshan@gmail.com',
+                         subject: "Integration Tests on Staging Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                         body: "The integration tests on staging were successful."
+                }
+            }
         }
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to production environment...'
                 echo 'Tool: AWS CLI' // Example deployment tool
                 // sh 'aws deploy...' // Uncomment if actually deploying to production
+            }
+            post {
+                success {
+                    // Send email notification on production deployment success
+                    mail to: 'dias.rukshan@gmail.com',
+                         subject: "Deployment to Production Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                         body: "The deployment to the production environment was successful."
+                }
             }
         }
     }
