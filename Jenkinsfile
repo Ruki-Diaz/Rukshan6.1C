@@ -15,12 +15,11 @@ pipeline {
                 // sh 'mvn test' // Uncomment if actually running tests
             }
             post {
-                always {
-                    emailext(
-                        to: 'dias.rukshan@gmail.com',
-                        subject: "Unit and Integration Tests - ${currentBuild.currentResult}",
-                        body: "The Unit and Integration Tests stage has ${currentBuild.currentResult}. Check the console output at ${env.BUILD_URL} to view the results.",
-                        attachLog: true
+                success {
+                    to: 'dias.rukshan@gmail.com',
+                    subject: "Unit and Integration Tests - ${currentBuild.currentResult}",
+                    body: "The Unit and Integration Tests stage has ${currentBuild.currentResult}. Check the console output at ${env.BUILD_URL} to view the results.",
+                    attachLog: true
                     )
                 }
             }
