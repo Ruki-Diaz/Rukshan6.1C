@@ -15,11 +15,15 @@ pipeline {
                 // sh 'mvn test' // Uncomment if actually running tests
             }
             post {
-                success {
-                    to: 'dias.rukshan@gmail.com',
-                    subject: "Unit and Integration Tests - ${currentBuild.currentResult}",
-                    body: "The Unit and Integration Tests stage has ${currentBuild.currentResult}. Check the console output at ${env.BUILD_URL} to view the results.",
-                    attachLog: true
+                always {
+                    // Send notification email at the end of the test stage
+                    emailext(
+                        to: 'dias.rukshan@gmail.com',
+                        subject: "Unit and Integration Tests - ${currentBuild.currentResult}",
+                        body: """The Unit and Integration Tests stage has ${currentBuild.currentResult}.
+
+Check the console output for more details at: ${env.BUILD_URL}""",
+                        attachLog: true
                     )
                 }
             }
@@ -39,10 +43,13 @@ pipeline {
             }
             post {
                 always {
+                    // Send notification email at the end of the security scan stage
                     emailext(
                         to: 'dias.rukshan@gmail.com',
                         subject: "Security Scan - ${currentBuild.currentResult}",
-                        body: "The Security Scan stage has ${currentBuild.currentResult}. Check the console output at ${env.BUILD_URL} to view the results.",
+                        body: """The Security Scan stage has ${currentBuild.currentResult}.
+
+Check the console output for more details at: ${env.BUILD_URL}""",
                         attachLog: true
                     )
                 }
