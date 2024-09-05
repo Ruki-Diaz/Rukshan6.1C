@@ -39,7 +39,12 @@ pipeline {
                 echo 'Tool: SonarQube' // Example code analysis tool
                 // sh 'sonar-scanner' // Uncomment if actually running SonarQube
             }
-            
+            post {
+                success {
+                    // Send email notification on code analysis success
+                    mail to: 'dias.rukshan@gmail.com',
+                         subject: "Code Analysis Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                         body: "The code analysis was successful."
                 }
             }
         }
@@ -66,7 +71,12 @@ pipeline {
                 echo 'Tool: AWS CLI' // Example deployment tool
                 // sh 'aws deploy...' // Uncomment if actually deploying to AWS
             }
-        
+            post {
+                success {
+                    // Send email notification on staging deployment success
+                    mail to: 'dias.rukshan@gmail.com',
+                         subject: "Deployment to Staging Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                         body: "The deployment to the staging environment was successful."
                 }
             }
         }
@@ -91,7 +101,12 @@ pipeline {
                 echo 'Tool: AWS CLI' // Example deployment tool
                 // sh 'aws deploy...' // Uncomment if actually deploying to production
             }
-            
+            post {
+                success {
+                    // Send email notification on production deployment success
+                    mail to: 'dias.rukshan@gmail.com',
+                         subject: "Deployment to Production Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                         body: "The deployment to the production environment was successful."
                 }
             }
         }
