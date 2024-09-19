@@ -33,7 +33,7 @@ pipeline {
             post {
                 success {
                     emailext(
-                        to: 'lehan.andrahennadi@gmail.com',
+                        to: 'dias.rukshan@gmail.com',
                         subject: "Pipeline - Unit and Integration Tests SUCCESS: ${currentBuild.fullDisplayName}",
                         body: "The unit and integration test completed successfully. Please find the logs attached.",
                         attachLog: true, compressLog: true
@@ -41,7 +41,7 @@ pipeline {
                 }
                 failure {
                     emailext(
-                        to: 'lehan.andrahennadi@gmail.com',
+                        to: 'dias.rukshan@gmail.com',
                         subject: "Pipeline - Unit and Integration Tests FAILURE: ${currentBuild.fullDisplayName}",
                         body: "The unit and integration test failed. Please find the logs attached.",
                         attachLog: true, compressLog: true
@@ -59,7 +59,7 @@ pipeline {
             post {
                 success {
                     emailext(
-                        to: 'lehan.andrahennadi@gmail.com',
+                        to: 'dias.rukshan@gmail.com',
                         subject: "Pipeline - Security Scan SUCCESS: ${currentBuild.fullDisplayName}",
                         body: "The security scan completed successfully. Please find the logs attached.",
                         attachLog: true, compressLog: true
@@ -67,7 +67,7 @@ pipeline {
                 }
                 failure {
                     emailext(
-                        to: 'lehan.andrahennadi@gmail.com',
+                        to: 'dias.rukshan@gmail.com',
                         subject: "Pipeline - Security Scan FAILURE: ${currentBuild.fullDisplayName}",
                         body: "The security scan failed. Please find the logs attached.",
                         attachLog: true, compressLog: true
@@ -93,7 +93,7 @@ pipeline {
             post {
                 success {
                     emailext(
-                        to: 'lehan.andrahennadi@gmail.com',
+                        to: 'dias.rukshan@gmail.com',
                         subject: "Pipeline - Integration Tests on Staging SUCCESS: ${currentBuild.fullDisplayName}",
                         body: "Integration tests on staging completed successfully. Please find the logs attached.",
                         attachLog: true, compressLog: true
@@ -101,7 +101,7 @@ pipeline {
                 }
                 failure {
                     emailext(
-                        to: 'lehan.andrahennadi@gmail.com',
+                        to: 'dias.rukshan@gmail.com',
                         subject: "Pipeline - Integration Tests on Staging FAILURE: ${currentBuild.fullDisplayName}",
                         body: "Integration tests on staging failed. Please find the logs attached.",
                         attachLog: true, compressLog: true
@@ -123,7 +123,7 @@ pipeline {
         always {
             echo 'Sending final email notification...'
             emailext(
-                to: 'lehan.andrahennadi@gmail.com',
+                to: 'dias.rukshan@gmail.com',
                 subject: "Pipeline finished: ${currentBuild.fullDisplayName}",
                 body: "Check console output at ${env.BUILD_URL}"
             )
