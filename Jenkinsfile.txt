@@ -27,9 +27,10 @@ pipeline {
                     emailext(
                         to: 'dias.rukshan@gmail.com',
                         subject: "Unit and Integration Tests - ${currentBuild.currentResult}",
-                        body: """The Unit and Integration Tests stage has ${currentBuild.currentResult}.
-                                 Check console output at ${env.BUILD_URL} to view the results.""",
-                        attachLog: true // Attach the log file
+                        body: """The Unit and Integration Tests stage has ${currentBuild.currentResult}. 
+                                Check the console output at ${env.BUILD_URL} to view the results.""",
+                        attachLog: true, // Attach the logs of the pipeline to the email
+                        compressLog: true // Optionally compress the log for larger files
                     )
                 }
             }
@@ -60,9 +61,10 @@ pipeline {
                     emailext(
                         to: 'dias.rukshan@gmail.com',
                         subject: "Security Scan - ${currentBuild.currentResult}",
-                        body: """The Security Scan stage has ${currentBuild.currentResult}.
-                                 Check console output at ${env.BUILD_URL} to view the results.""",
-                        attachLog: true // Attach the log file
+                        body: """The Security Scan stage has ${currentBuild.currentResult}. 
+                                Check the console output at ${env.BUILD_URL} to view the results.""",
+                        attachLog: true, // Attach the logs of the pipeline to the email
+                        compressLog: true // Optionally compress the log for larger files
                     )
                 }
             }
