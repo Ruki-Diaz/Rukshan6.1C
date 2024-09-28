@@ -1,122 +1,170 @@
- pipeline {
+pipeline {
     agent any
+
     stages {
+        stage('Checkout SCM') {
+            steps {
+                bat 'git --version' // Ensure Git is available
+                checkout scm
+            }
+        }
+        
         stage('Build') {
             steps {
-                echo 'Building the code...'
-                echo 'Tool: Maven' // Example build automation tool
-                // sh 'mvn clean package' // Uncomment if actually running Maven
-            }
-            post {
-                success {
-                    // Send email notification on build success
-                    mail to: 'dias.rukshan@gmail.com',
-                         subject: "Build Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                         body: "The build was successful."
+                script {
+                    try {
+                        // Example build command for Windows
+                        bat 'echo Building the project > build.log'
+                        bat 'echo Build successful >> build.log'
+                    } catch (Exception e) {
+                        echo "Build failed: ${e.getMessage()}"
+                        bat 'echo Build failed: ${e.getMessage()} >> build.log'
+                        currentBuild.result = 'FAILURE'
+                        error("Build failed")
+                    }
                 }
             }
         }
+        
         stage('Unit and Integration Tests') {
-            steps {
-                echo 'Running unit and integration tests...'
-                echo 'Tools: JUnit for unit tests, Selenium for integration tests' // Example test automation tools
-                // sh 'mvn test' // Uncomment if actually running tests
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
-            post {
-                always {
-                    emailext(
-                        to: 'dias.rukshan@gmail.com',
-                        subject: "Unit and Integration Tests - ${currentBuild.currentResult}",
-                        body: "The Unit and Integration Tests stage has ${currentBuild.currentResult}. Check console output at ${env.BUILD_URL} to view the results.",
-                        attachLog: true
-                    )
+            steps {
+                script {
+                    try {
+                        // Simulate running tests
+                        bat 'echo Running unit and integration tests >> build.log'
+                    } catch (Exception e) {
+                        echo "Tests failed: ${e.getMessage()}"
+                        bat 'echo Tests failed: ${e.getMessage()} >> build.log'
+                        currentBuild.result = 'FAILURE'
+                        error("Tests failed")
+                    }
                 }
             }
         }
+        
         stage('Code Analysis') {
-            steps {
-                echo 'Analyzing code quality...'
-                echo 'Tool: SonarQube' // Example code analysis tool
-                // sh 'sonar-scanner' // Uncomment if actually running SonarQube
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
-            post {
-                success {
-                    // Send email notification on code analysis success
-                    mail to: 'dias.rukshan@gmail.com',
-                         subject: "Code Analysis Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                         body: "The code analysis was successful."
+            steps {
+                script {
+                    try {
+                        // Simulate code analysis
+                        bat 'echo Running code analysis >> build.log'
+                    } catch (Exception e) {
+                        echo "Code analysis failed: ${e.getMessage()}"
+                        bat 'echo Code analysis failed: ${e.getMessage()} >> build.log'
+                        currentBuild.result = 'FAILURE'
+                        error("Code analysis failed")
+                    }
                 }
             }
         }
+        
         stage('Security Scan') {
-            steps {
-                echo 'Running security scans...'
-                echo 'Tool: OWASP Dependency Check' // Example security scanning tool
-                // sh 'dependency-check.sh' // Uncomment if actually running a security scan
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
-            post {
-                always {
-                    emailext(
-                        to: 'dias.rukshan@gmail.com',
-                        subject: "Security Scan - ${currentBuild.currentResult}",
-                        body: "The Security Scan stage has ${currentBuild.currentResult}. Check console output at ${env.BUILD_URL} to view the results.",
-                        attachLog: true
-                    )
+            steps {
+                script {
+                    try {
+                        // Simulate security scan
+                        bat 'echo Running security scan >> build.log'
+                    } catch (Exception e) {
+                        echo "Security scan failed: ${e.getMessage()}"
+                        bat 'echo Security scan failed: ${e.getMessage()} >> build.log'
+                        currentBuild.result = 'FAILURE'
+                        error("Security scan failed")
+                    }
                 }
             }
         }
+        
         stage('Deploy to Staging') {
-            steps {
-                echo 'Deploying to staging environment...'
-                echo 'Tool: AWS CLI' // Example deployment tool
-                // sh 'aws deploy...' // Uncomment if actually deploying to AWS
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
-            post {
-                success {
-                    // Send email notification on staging deployment success
-                    mail to: 'dias.rukshan@gmail.com',
-                         subject: "Deployment to Staging Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                         body: "The deployment to the staging environment was successful."
+            steps {
+                script {
+                    try {
+                        // Simulate deployment to staging
+                        bat 'echo Deploying to staging >> build.log'
+                    } catch (Exception e) {
+                        echo "Staging deployment failed: ${e.getMessage()}"
+                        bat 'echo Staging deployment failed: ${e.getMessage()} >> build.log'
+                        currentBuild.result = 'FAILURE'
+                        error("Staging deployment failed")
+                    }
                 }
             }
         }
+        
         stage('Integration Tests on Staging') {
-            steps {
-                echo 'Running integration tests on staging...'
-                echo 'Tool: Selenium for integration tests on staging' // Example integration test tool
-                // Use test scripts specific to your environment
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
-            post {
-                success {
-                    // Send email notification on integration test success on staging
-                    mail to: 'dias.rukshan@gmail.com',
-                         subject: "Integration Tests on Staging Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                         body: "The integration tests on staging were successful."
+            steps {
+                script {
+                    try {
+                        // Simulate integration tests on staging
+                        bat 'echo Running integration tests on staging >> build.log'
+                    } catch (Exception e) {
+                        echo "Integration tests on staging failed: ${e.getMessage()}"
+                        bat 'echo Integration tests on staging failed: ${e.getMessage()} >> build.log'
+                        currentBuild.result = 'FAILURE'
+                        error("Integration tests on staging failed")
+                    }
                 }
             }
         }
+        
         stage('Deploy to Production') {
-            steps {
-                echo 'Deploying to production environment...'
-                echo 'Tool: AWS CLI' // Example deployment tool
-                // sh 'aws deploy...' // Uncomment if actually deploying to production
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
-            post {
-                success {
-                    // Send email notification on production deployment success
-                    mail to: 'dias.rukshan@gmail.com',
-                         subject: "Deployment to Production Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                         body: "The deployment to the production environment was successful."
+            steps {
+                script {
+                    try {
+                        // Simulate deployment to production
+                        bat 'echo Deploying to production >> build.log'
+                    } catch (Exception e) {
+                        echo "Production deployment failed: ${e.getMessage()}"
+                        bat 'echo Production deployment failed: ${e.getMessage()} >> build.log'
+                        currentBuild.result = 'FAILURE'
+                        error("Production deployment failed")
+                    }
                 }
             }
         }
     }
+
     post {
+        always {
+            script {
+                // Collect and archive logs
+                archiveArtifacts artifacts: 'build.log', allowEmptyArchive: true
+            }
+        }
         success {
-            echo 'Pipeline completed successfully!'
+            emailext(
+                subject: 'Build Successful',
+                body: '''<p>Build completed successfully.</p>
+                         <p>See attached logs for more details.</p>''',
+                to: 'dias.rukshan@gmail.com',
+                attachmentsPattern: 'build.log'
+            )
         }
         failure {
-            echo 'Pipeline failed. Please check the logs.'
+            emailext(
+                subject: 'Build Failed',
+                body: '''<p>Build failed. Please check the logs.</p>
+                         <p>See attached logs for more details.</p>''',
+                to: 'dias.rukshan@gmail.com',
+                attachmentsPattern: 'build.log'
+            )
         }
     }
-} 
+}
