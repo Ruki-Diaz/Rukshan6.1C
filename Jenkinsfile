@@ -43,6 +43,17 @@ pipeline {
                     }
                 }
             }
+            post {
+                always {
+                    emailext(
+                        subject: 'Unit and Integration Tests Complete',
+                        body: '''<p>Unit and Integration Tests stage completed.</p>
+                                 <p>Check the logs for more details.</p>''',
+                        to: 'dias.rukshan@gmail.com',
+                        attachmentsPattern: 'build.log'
+                    )
+                }
+            }
         }
         
         stage('Code Analysis') {
@@ -79,6 +90,17 @@ pipeline {
                         currentBuild.result = 'FAILURE'
                         error("Security scan failed")
                     }
+                }
+            }
+            post {
+                always {
+                    emailext(
+                        subject: 'Security Scan Complete',
+                        body: '''<p>Security Scan stage completed.</p>
+                                 <p>Check the logs for more details.</p>''',
+                        to: 'dias.rukshan@gmail.com',
+                        attachmentsPattern: 'build.log'
+                    )
                 }
             }
         }
@@ -168,3 +190,4 @@ pipeline {
         }
     }
 }
+
